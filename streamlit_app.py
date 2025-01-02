@@ -26,16 +26,6 @@ def preprocess_data(df):
     df.dropna(inplace=True)
     return df
 
-'''# Train a linear regression model
-def train_model(df):
-    X = df[['MA10', 'MA50']]
-    y = df['Close']
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-    model = LinearRegression()
-    model.fit(X_train, y_train)
-    y_pred = model.predict(X_test)
-    return model, y_test, y_pred'''
- 	
 ticker = st.selectbox ("Choose a stock ticker", ["GOOGL", "AAPL", "MSFT", "AMZN", "NVDA", "WIT", "ORCL", "IBM", "META", "TSLA"])
 n_years = st.slider("Years of prediction: " , 1 , 10) #this creates a slider for how long you want to predict the stocks for, this particular one i have mentioned 1-4 years.
 period = n_years * 365 
