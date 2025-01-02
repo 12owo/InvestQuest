@@ -40,20 +40,7 @@ ticker = st.selectbox ("Choose a stock ticker", ["GOOGL", "AAPL", "MSFT", "AMZN"
 n_years = st.slider("Years of prediction: " , 1 , 10) #this creates a slider for how long you want to predict the stocks for, this particular one i have mentioned 1-4 years.
 period = n_years * 365 
 
-#loading the data
-@st.cache_data
-def load_data(ticker):  #ticker is the stock name thing
-  data = yf.download(ticker, start_date, TODAY) #downloading from start date to today date
-  data.reset_index(inplace=True) #put the date in the first column
-  return data
 
-data_load_state = st.text("Loading data...")
-data = load_data("selected_stock")
-data_load_state.text("Loading data...done!")
-if ticker:
-    df = fetch_data(ticker)
-    df = preprocess_data(df)
-    model, y_test, y_pred = train_model(df)
     
     st.subheader("Historical Stock Prices")
     st.line_chart(df['Close'])
