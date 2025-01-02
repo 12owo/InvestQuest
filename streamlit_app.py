@@ -37,7 +37,16 @@ def train_model(df):
     return model, y_test, y_pred
 
 ticker = st.selectbox("Choose a stock ticker", ["GOOGL", "AAPL", "MSFT", "AMZN", "NVDA", "WIT", "ORCL", "IBM", "META", "TSLA"])
+#loading the data
+@st.cache_data
+def load_data(ticker):  #ticker is the stock name thing
+  data = yf.download(ticker, start_date, TODAY) #downloading from start date to today date
+  data.reset_index(inplace=True) #put the date in the first column
+  return data
 
+data_load_state = st.text("Loading data...")
+data = load_data(selected_stock)
+data_load_state.text("Loading data...done!")
 if ticker:
     df = fetch_data(ticker)
     df = preprocess_data(df)
