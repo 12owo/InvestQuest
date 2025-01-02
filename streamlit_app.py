@@ -26,9 +26,7 @@ def preprocess_data(df):
     df.dropna(inplace=True)
     return df
 
-ticker = st.selectbox ("Choose a stock ticker", ["GOOGL", "AAPL", "MSFT", "AMZN", "NVDA", "WIT", "ORCL", "IBM", "META", "TSLA"])
-n_years = st.slider("Years of prediction: " , 1 , 10) #this creates a slider for how long you want to predict the stocks for, this particular one i have mentioned 1-4 years.
-period = n_years * 365 
+
 
 # Function to fetch data
 def fetch_data(ticker, period):
@@ -65,8 +63,11 @@ def train_model(df, model_type):
 st.title("Stock Price Prediction App")
 
 # User input for stock ticker and period
-ticker = st.text_input("Enter Stock Ticker", value="GOOGL")
-period = st.selectbox("Select Time Period", options=["1mo", "3mo", "6mo", "1y", "2y", "5y"], index=3)
+ticker = st.selectbox ("Choose a stock ticker", ["GOOGL", "AAPL", "MSFT", "AMZN", "NVDA", "WIT", "ORCL", "IBM", "META", "TSLA"])
+n_years = st.slider("Years of prediction: " , 1 , 10) #this creates a slider for how long you want to predict the stocks for, this particular one i have mentioned 1-4 years.
+period = n_years * 365 
+
+period = st.selectbox("Select Time Period", options=["6mo", "1y", "2y", "5y", "10y"], index=3)
 
 # User input for model selection
 model_type = st.selectbox("Select Model Type", options=["Linear Regression", "Ridge Regression", "Lasso Regression"])
