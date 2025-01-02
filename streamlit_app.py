@@ -1,4 +1,4 @@
-st.title('📈 InvestQuest')
+st.title(' 📈 InvestQuest')
 st.write('Start investing now!')
 import streamlit as st
 import pandas as pd 
