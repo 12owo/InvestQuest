@@ -1,5 +1,5 @@
 st.title(' 📈 InvestQuest')
-st.write('Start investing now!')
+st.info('Start investing now!') 
 import streamlit as st
 import pandas as pd 
 import yfinance as yf
