@@ -1,8 +1,8 @@
-
+import streamlit as st
 st.title(' 📈 InvestQuest')
 st.info('Start investing now!') 
 
-import streamlit as st
+
 import yfinance as yf
 import pandas as pd
 from sklearn.model_selection import train_test_split
