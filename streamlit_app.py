@@ -4,13 +4,7 @@ import yfinance as yf
 
 from sklearn.preprocessing import StandardScaler
 
-# Drop any rows with missing values
-df.dropna(inplace=True)
-# Check if df is a DataFrame
-if isinstance(df, pd.DataFrame):
-    df.dropna(inplace=True)
-else:
-    print("Error: df is not a DataFrame")
+
 # Create additional features (e.g., moving averages)
 df['MA10'] = df['Close'].rolling(window=10).mean()
 df['MA50'] = df['Close'].rolling(window=50).mean()
@@ -52,6 +46,13 @@ plt.plot(df.index[-len(y_test):], predictions, label='Predicted Close Price')
 plt.legend()
 plt.show()
 '''
+# Drop any rows with missing values
+df.dropna(inplace=True)
+# Check if df is a DataFrame
+if isinstance(df, pd.DataFrame):
+    df.dropna(inplace=True)
+else:
+    print("Error: df is not a DataFrame")
 st.title(' 📈 InvestQuest')
 st.info('Start investing now!') 
 
