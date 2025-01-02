@@ -36,7 +36,8 @@ def train_model(df):
     y_pred = model.predict(X_test)
     return model, y_test, y_pred
 
-ticker = st.text_input("Enter Stock", value="GOOGL" , "AAPL" , "MSFT" , "AMZN", "NVDA" , "WIT" , "ORCL" , "IBM" , "META" , "TSLA") 
+ticker = st.selectbox("Choose a stock ticker", ["GOOGL", "AAPL", "MSFT", "AMZN", "NVDA", "WIT", "ORCL", "IBM", "META", "TSLA"])
+
 if ticker:
     df = fetch_data(ticker)
     df = preprocess_data(df)
