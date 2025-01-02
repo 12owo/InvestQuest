@@ -70,7 +70,7 @@ period = n_years * 365
 period = st.selectbox("Select Time Period", options=["1y", "2y", "3y", "4y", "5y", "6y", "7y", "8y", "9y", "10y"], index=3)
 
 # User input for model selection
-model_type = ("Model Type") ["Linear Regression")
+model_type = ("Model Type") ["Linear Regression"]
 
 if ticker:
     df = fetch_data(ticker, period)
