@@ -1,9 +1,7 @@
-import pandas as pd
-import streamlit as st 
-import yfinance as yf
-from sklearn.preprocessing import StandardScaler
+
 st.title(' 📈 InvestQuest')
 st.info('Start investing now!') 
+
 import streamlit as st
 import yfinance as yf
 import pandas as pd
@@ -15,14 +13,16 @@ import matplotlib.pyplot as plt
 # Function to fetch data
 def fetch_data(ticker):
     stock_data = yf.Ticker(ticker)
-    df = stock_data.history(period="1y")
+    df = stock_data.history(period="10y")
     return df
-
-# Preprocess the data
+#reprocess the data
 def preprocess_data(df):
-    df = df[['Close']]
+    # Select the 'Close', 'Open', and 'Volume' columns
+    df = df[['Close', 'Open', 'Volume']]
+    # Calculate the 10-day and 50-day moving averages for the 'Close' column
     df['MA10'] = df['Close'].rolling(window=10).mean()
     df['MA50'] = df['Close'].rolling(window=50).mean()
+    # Drop rows with missing values
     df.dropna(inplace=True)
     return df
 
