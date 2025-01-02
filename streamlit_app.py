@@ -37,6 +37,11 @@ def train_model(df):
     return model, y_test, y_pred
 
 ticker = st.selectbox("Choose a stock ticker", ["GOOGL", "AAPL", "MSFT", "AMZN", "NVDA", "WIT", "ORCL", "IBM", "META", "TSLA"])
+
+selected_stock = st.selectbox("Select dataset for prediction", stocks) #dropdown box for selecting which stock you wanna see
+n_years = st.slider("Years of prediction: " , 1 , 10) #this creates a slider for how long you want to predict the stocks for, this particular one i have mentioned 1-4 years.
+period = n_years * 365 
+
 #loading the data
 @st.cache_data
 def load_data(ticker):  #ticker is the stock name thing
