@@ -67,7 +67,7 @@ ticker = st.selectbox ("Choose a stock ticker", ["GOOGL", "AAPL", "MSFT", "AMZN"
 n_years = st.slider("Years of prediction: " , 1 , 10) #this creates a slider for how long you want to predict the stocks for, this particular one i have mentioned 1-4 years.
 period = n_years * 365 
 
-period = st.selectbox("Select Time Period", options=["6mo", "1y", "2y", "5y", "10y"], index=3)
+period = st.selectbox("Select Time Period", options=["1y", "2y", "3y", "4y", "5y", "6y", "7y", "8y", "9y", "10y"], index=3)
 
 # User input for model selection
 model_type = st.selectbox("Select Model Type", options=["Linear Regression", "Ridge Regression", "Lasso Regression"])
