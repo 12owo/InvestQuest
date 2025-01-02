@@ -35,7 +35,7 @@ def train_model(df):
     model.fit(X_train, y_train)
     y_pred = model.predict(X_test)
     return model, y_test, y_pred
-
+ 	
 ticker = st.selectbox ("Choose a stock ticker", ["GOOGL", "AAPL", "MSFT", "AMZN", "NVDA", "WIT", "ORCL", "IBM", "META", "TSLA"])
 n_years = st.slider("Years of prediction: " , 1 , 10) #this creates a slider for how long you want to predict the stocks for, this particular one i have mentioned 1-4 years.
 period = n_years * 365 
@@ -48,7 +48,7 @@ def load_data(ticker):  #ticker is the stock name thing
   return data
 
 data_load_state = st.text("Loading data...")
-data = load_data(selected_stock)
+data = load_data("selected_stock")
 data_load_state.text("Loading data...done!")
 if ticker:
     df = fetch_data(ticker)
