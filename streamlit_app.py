@@ -1,5 +1,4 @@
 import streamlit as st
-
-st.title('🎈 App Name')
-
-st.write('Hello world!')
+import pandas as pd 
+st.title('📈 InvestQuest')
+st.write('Start investing now!')
