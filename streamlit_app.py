@@ -30,66 +30,63 @@ ticker = st.selectbox ("Choose a stock ticker", ["GOOGL", "AAPL", "MSFT", "AMZN"
 n_years = st.slider("Years of prediction: " , 1 , 10) #this creates a slider for how long you want to predict the stocks for, this particular one i have mentioned 1-4 years.
 period = n_years * 365 
 
-# To run the app, use the command: streamlit run streamlit_app.py
+# Function to fetch data
+def fetch_data(ticker, period):
+    stock_data = yf.Ticker(ticker)
+    df = stock_data.history(period=period)
+    return df
 
-# Create additional features (e.g., moving averages)
-df['MA10'] = df['Close'].rolling(window=10).mean()
-df['MA50'] = df['Close'].rolling(window=50).mean()
-
-# Normalize the data
-scaler = StandardScaler()
-df_scaled = scaler.fit_transform(df[['Close', 'MA10', 'MA50']])
-
-# Convert the scaled data back to a DataFrame
-df_scaled = pd.DataFrame(df_scaled, columns=['Close', 'MA10', 'MA50'], index=df.index)
-
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
-
-# Split the data into features (X) and target (y)
-X = df_scaled[['MA10', 'MA50']]
-y = df_scaled['Close']
-
-# Split the data into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-# Create and train the model
-model = LinearRegression()
-model.fit(X_train, y_train)
-
-# Make predictions
-predictions = model.predict(X_test)
-
-# Evaluate the model
-from sklearn.metrics import mean_squared_error
-mse = mean_squared_error(y_test, predictions)
-print(f'Mean Squared Error: {mse}')
-
-import matplotlib.pyplot as plt
-
-plt.figure(figsize=(14, 7))
-plt.plot(df.index, df['Close'], label='Actual Close Price')
-plt.plot(df.index[-len(y_test):], predictions, label='Predicted Close Price')
-plt.legend()
-plt.show()
-
-# Drop any rows with missing values
-df.dropna(inplace=True)
-# Check if df is a DataFrame
-if isinstance(df, pd.DataFrame):
+# Preprocess the data
+def preprocess_data(df):
+    df = df[['Close']]
+    df['MA10'] = df['Close'].rolling(window=10).mean()
+    df['MA50'] = df['Close'].rolling(window=50).mean()
     df.dropna(inplace=True)
-else:
-    print("Error: df is not a DataFrame")
+    return df
 
-# Define the stock ticker and the time period
-ticker = "GOOGL"  # Example: Google stock
-period = "1y"  # Example: 1 year of data
+# Train a linear regression model
+def train_model(df, model_type):
+    X = df[['MA10', 'MA50']]
+    y = df['Close']
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Fetch the historical market data
-stock_data = yf.Ticker(ticker)
-df = stock_data.history(period=period)
+    if model_type == 'Linear Regression':
+        model = LinearRegression()
+    elif model_type == 'Ridge Regression':
+        model = Ridge(alpha=1.0)
+    elif model_type == 'Lasso Regression':
+        model = Lasso(alpha=0.1)
 
-# Display the data
-print(df)
+    model.fit(X_train, y_train)
+    y_pred = model.predict(X_test)
+    return model, y_test, y_pred
 
+# Streamlit app
+st.title("Stock Price Prediction App")
+
+# User input for stock ticker and period
+ticker = st.text_input("Enter Stock Ticker", value="GOOGL")
+period = st.selectbox("Select Time Period", options=["1mo", "3mo", "6mo", "1y", "2y", "5y"], index=3)
+
+# User input for model selection
+model_type = st.selectbox("Select Model Type", options=["Linear Regression", "Ridge Regression", "Lasso Regression"])
+
+if ticker:
+    df = fetch_data(ticker, period)
+    df = preprocess_data(df)
+    model, y_test, y_pred = train_model(df, model_type)
+    
+    st.subheader("Historical Stock Prices")
+    st.line_chart(df['Close'])
+    
+    st.subheader("Model Predictions vs Actual")
+    plt.figure(figsize=(14, 7))
+    plt.plot(y_test.index, y_test, label='Actual Close Price')
+    plt.plot(y_test.index, y_pred, label='Predicted Close Price')
+    plt.legend()
+    st.pyplot(plt)
+
+    st.write("Mean Squared Error:", ((y_test - y_pred) ** 2).mean())
+
+# To run the app, use the command: streamlit run streamlit_app.py
 
